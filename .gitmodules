@@ -1,0 +1,6 @@
+[submodule "hackademint/pixelwar"]
+	path = hackademint/pixelwar
+	url = https://github.com/zteeed/pixelwar.git
+[submodule "hackademint/solution_cpp"]
+	path = hackademint/solution_cpp
+	url = https://github.com/zteeed/pixelwar.git
