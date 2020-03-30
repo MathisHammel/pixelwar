@@ -1,0 +1,19 @@
+[package]
+name = "pixelwar-h25-io"
+version = "0.1.0"
+authors = ["Thomas Lacroix <toto.rigolo@free.fr>"]
+edition = "2018"
+
+[dependencies]
+env_logger = "0.7"
+image = "0.23"
+log = "0.4"
+rand = "0.7"
+rayon = "1"
+reqwest = { version = "0.10", features = ["blocking", "json"] }
+sha2 = "0.8"
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
+# Compile with RUSTFLAGS="-C target-cpu=native" cargo ...
