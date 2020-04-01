@@ -52,16 +52,13 @@ impl Iterator for ProofGenerator {
     type Item = String;
 
     fn next(&mut self) -> Option<Self::Item> {
-        // TODO: Try smallstring
-
         let mut rng = SmallRng::from_entropy();
 
         loop {
-            let proof_suffix = (0..self.suffix_length)
+            let proof_suffix: String = (0..self.suffix_length)
                 .map(|_| rng.gen::<u8>())
-                .map(|x| x % 26 + b'a')
+                .map(|x| (x % 26 + b'a') as char)
                 .collect();
-            let proof_suffix = String::from_utf8(proof_suffix).unwrap();
 
             let hash = Sha256::new()
                 .chain("h25")
