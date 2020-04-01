@@ -11,14 +11,12 @@ impl ProofGeneratorBuilder {
     /// obtain an initialized `ProofGenerator.`
     ///
     /// By default, all attributes are empty/zero.
-    #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
         Self {
             generator: ProofGenerator {
                 prefix: String::new(),
                 suffix_length: 0,
                 digest_prefix: String::new(),
-                rng: SmallRng::from_entropy(),
             },
         }
     }
@@ -38,11 +36,6 @@ impl ProofGeneratorBuilder {
         self
     }
 
-    pub fn with_rand_seed(mut self, seed: u64) -> ProofGeneratorBuilder {
-        self.generator.rng = SmallRng::seed_from_u64(seed);
-        self
-    }
-
     pub fn build(self) -> ProofGenerator {
         self.generator
     }
@@ -53,19 +46,19 @@ pub struct ProofGenerator {
     prefix: String,
     suffix_length: usize,
     digest_prefix: String,
-    rng: SmallRng,
 }
 
 impl Iterator for ProofGenerator {
     type Item = String;
 
     fn next(&mut self) -> Option<Self::Item> {
+        let mut rng = SmallRng::from_entropy();
         let mut proof_suffix = String::with_capacity(self.suffix_length);
 
         loop {
             proof_suffix.clear();
             proof_suffix.extend((0..self.suffix_length)
-                .map(|_| self.rng.gen::<u8>())
+                .map(|_| rng.gen::<u8>())
                 .map(|x| (x % 26 + b'a') as char));
 
             let hash = Sha256::new()
