@@ -1,4 +1,6 @@
 use sha2::{Digest, Sha256};
+use rand::{Rng, SeedableRng};
+use rand::rngs::SmallRng;
 
 pub struct ProofGeneratorBuilder {
     generator: ProofGenerator,
@@ -54,9 +56,11 @@ impl Iterator for ProofGenerator {
         // TODO: use Sha256::reset
         // TODO: Bench unsafe vs. unwrap
 
+        let mut rng = SmallRng::from_entropy();
+
         loop {
             let proof_suffix = (0..self.suffix_length)
-                .map(|_| rand::random::<u8>())
+                .map(|_| rng.gen::<u8>())
                 .map(|x| x % 26 + b'a')
                 .collect();
             // Safety: only lowercase letters
