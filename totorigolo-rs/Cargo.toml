@@ -1,5 +1,5 @@
 [package]
-name = "pixelwar-h25-io"
+name = "pixelwar-client-rs"
 version = "0.1.0"
 authors = ["Thomas Lacroix <toto.rigolo@free.fr>"]
 edition = "2018"
@@ -17,3 +17,10 @@ sha2 = "0.8"
 lto = "fat"
 codegen-units = 1
 # Compile with RUSTFLAGS="-C target-cpu=native" cargo ...
+
+[dev-dependencies]
+criterion = "0.3"
+
+[[bench]]
+name = "proof_benchmark"
+harness = false
