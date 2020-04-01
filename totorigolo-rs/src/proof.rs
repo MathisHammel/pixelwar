@@ -53,8 +53,6 @@ impl Iterator for ProofGenerator {
 
     fn next(&mut self) -> Option<Self::Item> {
         // TODO: Try smallstring
-        // TODO: use Sha256::reset
-        // TODO: Bench unsafe vs. unwrap
 
         let mut rng = SmallRng::from_entropy();
 
@@ -63,8 +61,7 @@ impl Iterator for ProofGenerator {
                 .map(|_| rng.gen::<u8>())
                 .map(|x| x % 26 + b'a')
                 .collect();
-            // Safety: only lowercase letters
-            let proof_suffix = unsafe { String::from_utf8_unchecked(proof_suffix) };
+            let proof_suffix = String::from_utf8(proof_suffix).unwrap();
 
             let hash = Sha256::new()
                 .chain("h25")
