@@ -1,0 +1,28 @@
+[package]
+name = "pixelwar-client-rs"
+version = "0.1.0"
+authors = ["Thomas Lacroix <toto.rigolo@free.fr>"]
+edition = "2018"
+
+[dependencies]
+env_logger = "0.7"
+image = "0.23"
+log = "0.4"
+rand = { version = "0.7", features = ["small_rng"] }
+rayon = "1"
+reqwest = { version = "0.10", features = ["blocking", "json"] }
+sha2 = "0.8"
+
+[profile.release]
+lto = "thin"
+#lto = "fat"
+#codegen-units = 1
+# Compile with: RUSTFLAGS="-C target-cpu=native" cargo ...
+
+[dev-dependencies]
+criterion = "0.3"
+
+[[bench]]
+# Bench with: RUSTFLAGS="-C target-cpu=native" cargo bench --bench proof_benchmark -- --sample-size 20
+name = "proof_benchmark"
+harness = false
