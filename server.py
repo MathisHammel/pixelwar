@@ -49,13 +49,27 @@ def image():
 def root():
     return '''<html>
     <head>
-        <meta http-equiv="refresh" content="60">
+        
     </head>
     <body>
-        <img src="/image" />
+        <img src="/image" id="myImage"/>
+        <br><br><br>
+        <a href="/about">About</a>
     </body>
-    <br><br><br>
-    <a href="/about">About</a>
+    <script>
+    var newImage = new Image();
+    newImage.src = "/image";
+    var count = 0;
+    function updateImage()
+    {
+        if(newImage.complete) {
+            document.getElementById("myImage").src = newImage.src;
+            newImage = new Image();
+            newImage.src = "/image#" + count++ + "";
+        }
+        setTimeout(updateImage, 10*000);
+    }
+    setTimeout(updateImage, 10*000);</script>
 </html>'''
 
 @app.route('/setpixel')
